@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to fuck <%= title %></p>
+
+    <button id="btn">test get button</button>
+    <br> <br>
+
+    <div class="box"></div>
+
+    <button id="btn1">test post button</button>
+
+    <form action="/users/PostAjax" method="post">
+      用户名：<input type="text" name="username" >
+      密码：<input type="password" name="password">
+      <input type="submit">
+    </form>
+  
+
+
+  </body>
+
+  <script>
+      let btn = document.getElementById("btn");
+      let btn1 = document.getElementById("btn1");
+
+      btn.onclick = function () {
+          //创建XMLHttpRequest请求对象
+          let xhr = new XMLHttpRequest();
+          /*
+           open方法用来设置请求参数信息
+           XMLHttpRequest.prototype.open = function(method,url,async,user,password) {};
+           method: 请求方式， get/post
+           url: 请求的地址， get可以通过请求地址发送请求参数
+           async:  是否以异步方式发送，传boolean值，默认为 true
+           */
+          xhr.open("get", "/users/ajax?name=invoker&password=123");
+          /*
+            send() 发送请求，XMLHttpRequest.prototype.send = function(data) {};
+
+            get请求send()里面的data参数可以不传
+            post请求send()里面的参数 可以传 "username=invoker"
+           */
+
+          xhr.send();
+
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && xhr.status == 200){
+                  let data = xhr.responseText;
+                  document.querySelector(".box").innerHTML += data + "<br>";
+              }
+          }
+      }
+
+      btn1.onclick = function () {
+          let xhr = new XMLHttpRequest();
+          xhr.open("post", "/users/PostAjax");
+          /*
+            通过form表单发送的pos请求头，内容类型默认为
+                Content-Type:application/x-www-form-urlencoded
+            通过AJAX发送的post请求头，内容编码格式为
+                Content-Type:text/plain;charset=UTF-8
+            所以通过ajax发送post请求，一定要把内容类型修改
+
+           */
+          //xhr.setRequestHeader("content-type", "")
+          xhr.send("name=lina&password=123");
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && xhr.status == 200){
+                  let data = xhr.responseText;
+                  document.querySelector(".box").innerHTML += data + "<br>";
+              }
+          }
+
+      }
+
+  </script>
+</html>

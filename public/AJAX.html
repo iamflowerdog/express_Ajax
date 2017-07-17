@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MrYanG</title>
+</head>
+<body>
+
+    <button id="btn">发送ajax请求</button>
+<script type="text/javascript">
+
+
+    /*
+        AJAX简介 : Asynchronous JavaScript And XML
+            - 异步的 JS 和 XML (可扩展标记语言)
+
+        同步和异步
+        - 同步
+            - 浏览器中访问页面，整个页面刷新，同步执行，前方未执行，后方需等待
+        - 异步
+            - 刷新页面时，不刷新整个页面，只刷新变化的部分，刷新时不影响其他操作
+
+        AJAX就是让我们通过javascript向服务器发送请求的一种技术
+
+        实例：谷歌邮箱 大量使用该技术，Google Earth
+
+
+         console.log(xhr.__proto__);
+
+       XMLHttpRequest {UNSENT: 0, OPENED: 1, HEADERS_RECEIVED: 2, LOADING: 3, DONE: 4…}
+
+     */
+
+    let btn = document.getElementById("btn");
+
+    btn.onclick = function () {
+        let xhr = new XMLHttpRequest();
+
+        xhr.open("get", "http://localhost:3000/users/ajax");
+
+        xhr.send();
+
+        /*
+         Responses Headers:
+             HTTP/1.1 304 Not Modified
+             X-Powered-By: Express
+             ETag: W/"1b-TjxksubPhoXJl5tf/+X7uA"
+             Date: Mon, 17 Jul 2017 03:41:24 GMT
+             Connection: keep-alive
+
+         Requests Headers:
+             GET /users/ajax HTTP/1.1
+             Host: localhost:3000
+             Connection: keep-alive
+             Origin: http://localhost:63342
+             User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36
+             Accept:
+            Referer: http://localhost:63342/angular/Ajax/AJAX.html?_ijt=qcnh9anri58oc27tv4gker76
+                Accept-Encoding: gzip, deflate, br
+            Accept-Language: zh-CN,zh;q=0.8
+            If-None-Match: W/"1b-TjxksubPhoXJl5tf/+X7uA"
+
+         */
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4){
+                let data = xhr.responseText;
+                alert(data);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
